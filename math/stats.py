@@ -14,14 +14,15 @@ import math
 # Sorted,
 # Mean,
 # Median,
-# Mode, and
-# Range
+# Mode,
+# Range, and
+# Standard Deviation.
 #
-# (median coming soon, to a program near you)
 # UPDATE: Median has been confirmed to work!!!
 # UPDATE: It's 10:32 PM, but I fixed the mode function using some code
 # I got from this website:
 """>> https://datagy.io/python-get-dictionary-key-with-max-value <<"""
+# UPDATE: It’s 11:08 PM, but I added Standard Deviation calculation (after poring over the formula to make sure I understood it, of course)!
 
 
 # int: 5
@@ -61,7 +62,7 @@ def median(dataset: list) -> float:
         sorted[int(len(sorted)/2)]      
     ]
    
-    l, j, theaverage = mean(middles)
+    theaverage = mean(middles)[2]
     return strsorted, theaverage
   # if the length is not even (if its odd)
   else:
@@ -90,22 +91,20 @@ def standard_deviation(dataset: list) -> float:
 
 # DEFINE YOUR DATASET AS 'data = [val1, val2, val3...]' where val1-3 is your values, 
 # continuing if you have more than three values
-if __name__ == '__main__':
-  data = randdataset(8, 1, 20)
+data = [6, 3, 2, 1]
 
-  datasum, datalen, datamean =  mean(data)
-  datasort, datamedian = median (data)
-   
+datasum, datalen, datamean = mean(data)
+datasort, datamedian = median(data)
+
+def printEverything():
+  print(f"Total: {str(datasum)}")
+  print(f"Length: {str(datalen)}")
+  print(f"Mean: {str(datamean)}")
+  print(f"Mode: {str(mode(data)).replace('[', '').replace(']', '')}")
+  print(f"Sorted: {datasort}")
+  print(f"Median: {str(datamedian)}")
+  print(f"Range: {str(range(data))}")
+  print(f"Standard Deviation: {str(standard_deviation(data))}")
   
-  def printEverything():
-    print(f"Total: {str(datasum)}")
-    print(f"Length: {str(datalen)}")
-    print(f"Mean: {str(datamean)}")
-    print(f"Mode: {str(mode(data)).replace('[', '').replace(']', '')}")
-    print(f"Sorted: {datasort}")
-    print(f"Median: {str(datamedian)}")
-    print(f"Range: {str(range(data))}")
-    print(f"Standard Deviation: {str(standard_deviation(data))}")
-    
-    
-  printEverything()
+  
+printEverything()
