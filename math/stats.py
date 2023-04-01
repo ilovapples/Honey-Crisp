@@ -1,38 +1,111 @@
-def isOdd(num):
-    if num%2 == 0:
-        return False
-    else:
-        return True
+# MY USERNAME IS ilovapples ON GITHUB
+# GOTO https://github.com/ilovapples FOR MY WORK
 
-def isEven(num):
-    if num%2 == 0:
-        return True
-    else:
-        return False
+import random
+import math
 
-def mean(nums: list):
-    total = 0
-    for num in nums:
-        total += num
-    return total / len(nums)
+# TITLE:
+# 
+# Stat Calculator for Datasets
+# Calculates:
+# 
+# Total,
+# Length (number of data points),
+# Sorted,
+# Mean,
+# Median,
+# Mode, and
+# Range
+#
+# (median coming soon, to a program near you)
+# UPDATE: Median has been confirmed to work!!!
+# UPDATE: It's 10:32 PM, but I fixed the mode function using some code
+# I got from this website:
+""">> https://datagy.io/python-get-dictionary-key-with-max-value <<"""
 
-def mode(nums: list):
-    frequencies = {}
-    for num in nums:
-        frequencies[str(num)] = nums.count(num)
+
+# int: 5
+# str: “hi”
+# dict: {“j”: “d”}
+# list: [5, “5”, {“hi”: “hi”}, [5, ”8”]]
+# None: None
+# bool: True or False
+
+
+
+
+def randdataset(length: int, min_: int, max_: int) -> list:
+  dataset = []
+  x = 0
+  while x <= length:
+      dataset.append(random.randint(min_, max_))
+      x += 1
+  return dataset
+
+
+def mean(dataset: list) -> float:
+  total = sum(dataset)
+  length = len(dataset)
+  mean = total/length
+  return total, length, mean
+
+
+def median(dataset: list) -> float:
+  sorted = dataset.copy()
+  sorted.sort()
+  # if the length is even
+  if len(dataset)%2 == 0:
+    strsorted = str(sorted).replace('[', '').replace(']', '')
+    middles = [
+        sorted[int(len(sorted)/2 - 1)],
+        sorted[int(len(sorted)/2)]      
+    ]
+   
+    l, j, theaverage = mean(middles)
+    return strsorted, theaverage
+  # if the length is not even (if its odd)
+  else:
+    strsorted = str(sorted).replace('[', '').replace(']', '')
+    return strsorted, sorted[int(len(sorted)/2 - 0.5)]
+ 
+ 
+def mode(dataset: list) -> float:
+  frequencies = {str(i): dataset.count(i) for i in dataset}
+  max_keys = [int(key) for key, value in frequencies.items() if value == max(frequencies.values())]
+  if max_keys == dataset:
+    return [None]
+  return max_keys
+ 
+ 
+def range(dataset: list) -> float:
+  return max(dataset) - min(dataset)
+
+
+def standard_deviation(dataset: list) -> float:
+  return math.sqrt(
+    sum(
+      [abs(val - mean(dataset)[2])**2 for val in dataset]
+    )/len(dataset)
+  )
+
+# DEFINE YOUR DATASET AS 'data = [val1, val2, val3...]' where val1-3 is your values, 
+# continuing if you have more than three values
+if __name__ == '__main__':
+  data = randdataset(8, 1, 20)
+
+  datasum, datalen, datamean =  mean(data)
+  datasort, datamedian = median (data)
+   
+  
+  def printEverything():
+    print(f"Total: {str(datasum)}")
+    print(f"Length: {str(datalen)}")
+    print(f"Mean: {str(datamean)}")
+    print(f"Mode: {str(mode(data)).replace('[', '').replace(']', '')}")
+    print(f"Sorted: {datasort}")
+    print(f"Median: {str(datamedian)}")
+    print(f"Range: {str(range(data))}")
+    print(f"Standard Deviation: {str(standard_deviation(data))}")
     
-    return int(max(frequencies, key=frequencies.get))
-
-def median(nums: list):
-    nums.sort()
-    sortedNums = nums.copy()
-    if isOdd(len(nums)):
-        return sortedNums[int(len(nums)/2+0.5)-1]
-    else:
-        middleNums = []
-        middleNums.append(sortedNums[int(len(nums)/2)-1])
-        middleNums.append(sortedNums[int(len(nums)/2+1)-1])
-        return mean(middleNums)
-
-nums = [1, 1, 3, 5, 7, 9, 9, 10, 15]
-print("Median: %s\nMode: %s\nMean: %s" % (median(nums), mode(nums), mean(nums)))
+    
+  printEverything()
