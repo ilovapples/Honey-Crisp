@@ -14,15 +14,14 @@ import math
 # Sorted,
 # Mean,
 # Median,
-# Mode,
-# Range, and
-# Standard Deviation.
+# Mode, and
+# Range
 #
+# (median coming soon, to a program near you)
 # UPDATE: Median has been confirmed to work!!!
 # UPDATE: It's 10:32 PM, but I fixed the mode function using some code
 # I got from this website:
 """>> https://datagy.io/python-get-dictionary-key-with-max-value <<"""
-# UPDATE: It’s 11:08 PM, but I added Standard Deviation calculation (after poring over the formula to make sure I understood it, of course)!
 
 
 # int: 5
@@ -36,40 +35,34 @@ import math
 
 
 def randdataset(length: int, min_: int, max_: int) -> list:
-  dataset = []
-  x = 0
-  while x <= length:
-      dataset.append(random.randint(min_, max_))
-      x += 1
-  return dataset
+  return [random.randint(min_, max_) for i in range(length)]
 
 
 def mean(dataset: list) -> float:
-  total = sum(dataset)
-  length = len(dataset)
-  mean = total/length
-  return total, length, mean
+  return sum(dataset)/len(dataset)
 
 
 def median(dataset: list) -> float:
-  sorted = dataset.copy()
-  sorted.sort()
+  sortedlist = datasorted(dataset)
   # if the length is even
   if len(dataset)%2 == 0:
-    strsorted = str(sorted).replace('[', '').replace(']', '')
     middles = [
-        sorted[int(len(sorted)/2 - 1)],
-        sorted[int(len(sorted)/2)]      
+        sortedlist[int(len(sortedlist)/2 - 1)],
+        sortedlist[int(len(sortedlist)/2)]      
     ]
    
-    theaverage = mean(middles)[2]
-    return strsorted, theaverage
+    return mean(middles)
   # if the length is not even (if its odd)
   else:
-    strsorted = str(sorted).replace('[', '').replace(']', '')
-    return strsorted, sorted[int(len(sorted)/2 - 0.5)]
+    return sortedlist[int(len(sortedlist)/2 - 0.5)]
  
- 
+
+def datasorted(dataset: list) -> list:
+  sortedlist = dataset.copy()
+  sortedlist.sort()
+  return sortedlist
+
+
 def mode(dataset: list) -> float:
   frequencies = {str(i): dataset.count(i) for i in dataset}
   max_keys = [int(key) for key, value in frequencies.items() if value == max(frequencies.values())]
@@ -78,33 +71,50 @@ def mode(dataset: list) -> float:
   return max_keys
  
  
-def range(dataset: list) -> float:
+def getrange(dataset: list) -> float:
   return max(dataset) - min(dataset)
 
 
 def standard_deviation(dataset: list) -> float:
   return math.sqrt(
     sum(
-      [abs(val - mean(dataset)[2])**2 for val in dataset]
+      [abs(val - mean(dataset))**2 for val in dataset]
     )/len(dataset)
   )
+  
 
+def MAD(dataset: list) -> float:
+  return mean([abs(x - mean(dataset)) for x in dataset])
+  
 # DEFINE YOUR DATASET AS 'data = [val1, val2, val3...]' where val1-3 is your values, 
 # continuing if you have more than three values
-data = [6, 3, 2, 1]
+if __name__ == '__main__':
+  data = [6, 3, 2, 1]
 
-datasum, datalen, datamean = mean(data)
-datasort, datamedian = median(data)
-
-def printEverything():
-  print(f"Total: {str(datasum)}")
-  print(f"Length: {str(datalen)}")
-  print(f"Mean: {str(datamean)}")
-  print(f"Mode: {str(mode(data)).replace('[', '').replace(']', '')}")
-  print(f"Sorted: {datasort}")
-  print(f"Median: {str(datamedian)}")
-  print(f"Range: {str(range(data))}")
-  print(f"Standard Deviation: {str(standard_deviation(data))}")
+   
   
-  
-printEverything()
+  def printEverything():
+    vals = {
+      "total": str(sum(data)),
+      "length": str(len(data)),
+      "sorted": str(datasorted(data)),
+      "mean": str(mean(data)),
+      "median": str(median(data)),
+      "mode": str(mode(data)).replace('[', '').replace(']', ''),
+      "range": str(getrange(data)),
+      "sd": str(round(standard_deviation(data), 10)),
+      "mad": str(round(MAD(data), 10)),
+    }    
+    
+    print(f"Total: {vals['total']}")
+    print(f"Length: {vals['length']}")
+    print(f"Sorted: {vals['sorted']}")
+    print(f"Mean: {vals['mean']}")
+    print(f"Median: {vals['median']}")
+    print(f"Mode: {vals['mode']}")
+    print(f"Range: {vals['range']}")
+    print(f"Standard Deviation: {vals['sd']}")
+    print(f"Mean Absolute Deviation: {vals['mad']}")
+    
+    
+  printEverything()
