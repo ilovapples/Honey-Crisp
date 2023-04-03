@@ -25,9 +25,9 @@ import math
 
 
 # int: 5
-# str: “hi”
-# dict: {“j”: “d”}
-# list: [5, “5”, {“hi”: “hi”}, [5, ”8”]]
+# str: “hi"
+# dict: {“j": “d"}
+# list: [5, “5", {“hi": “hi"}, [5, "8"]]
 # None: None
 # bool: True or False
 
@@ -36,7 +36,7 @@ import math
 
 def randdataset(length: int, min_: int, max_: int) -> list:
   return [random.randint(min_, max_) for i in range(length)]
-
+  
 
 def mean(dataset: list) -> float:
   return sum(dataset)/len(dataset)
@@ -86,18 +86,30 @@ def standard_deviation(dataset: list) -> float:
 def MAD(dataset: list) -> float:
   return mean([abs(x - mean(dataset)) for x in dataset])
   
-# DEFINE YOUR DATASET AS 'data = [val1, val2, val3...]' where val1-3 is your values, 
-# continuing if you have more than three values
+  
 if __name__ == '__main__':
-  data = [6, 3, 2, 1]
+  
+  # DEFINE YOUR DATASET AS 'data = [val1, val2, val3...]' where val1-3 is your values, 
+  # continuing if you have more than three values
+  
+  # If you want a random dataset, use 'randdataset()', as:
+  # For a random dataset with 7 points, each point an integer between 
+  # 5 and 67:
+  # data = randdataset(7, 5, 67)
+  
+  # Given example below: 4 random datapoints, which are any integer
+  # between 1 and 10.
+  data = randdataset(4, 1, 10)
+  
 
    
   
   def printEverything():
     vals = {
+      "original": str(data).replace('[', '').replace(']', ''),
       "total": str(sum(data)),
       "length": str(len(data)),
-      "sorted": str(datasorted(data)),
+      "sorted": str(datasorted(data)).replace('[', '').replace(']', ''),
       "mean": str(mean(data)),
       "median": str(median(data)),
       "mode": str(mode(data)).replace('[', '').replace(']', ''),
@@ -105,14 +117,14 @@ if __name__ == '__main__':
       "sd": str(round(standard_deviation(data), 10)),
       "mad": str(round(MAD(data), 10)),
     }    
-    
+    print(f"Original: {vals['original']}\n")
     print(f"Total: {vals['total']}")
     print(f"Length: {vals['length']}")
-    print(f"Sorted: {vals['sorted']}")
+    print(f"Sorted: {vals['sorted']}\n")
     print(f"Mean: {vals['mean']}")
     print(f"Median: {vals['median']}")
     print(f"Mode: {vals['mode']}")
-    print(f"Range: {vals['range']}")
+    print(f"Range: {vals['range']}\n")
     print(f"Standard Deviation: {vals['sd']}")
     print(f"Mean Absolute Deviation: {vals['mad']}")
     
